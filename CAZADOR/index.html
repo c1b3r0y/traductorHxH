@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformar Palabra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'HunterxFont';
+            src: url('Hunterxhunter-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+        }
+        input, p {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .new-font {
+            font-family: 'HunterxFont', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Traductor HXH</h1>
+        <input type="text" id="inputWord" placeholder="Escribe tu nombre">
+        <p id="result"></p>
+        <p id="resultTransformed" class="new-font"></p>
+    </div>
+    <script>
+        document.getElementById('inputWord').addEventListener('input', function() {
+            let word = this.value.toLowerCase();
+            let result = transformWord(word);
+            document.getElementById('result').innerText = result;
+
+            let transformedResult = applyAdditionalTransformations(result);
+            document.getElementById('resultTransformed').innerText = transformedResult;
+        });
+
+        function transformWord(word) {
+            // Eliminar 'h'
+            word = word.replace(/h/g, '');
+
+            // Reemplazar 'l' por 'r'
+            word = word.replace(/l/g, 'r');
+
+            // Insertar vocales entre dos consonantes
+            word = word.replace(/([bcdfgjklmnpqrstvwxyz])([bcdfgjklmnpqrstvwxyz])/g, function(match, p1, p2) {
+                if (p2 === 'd' || p2 === 't') {
+                    return p1 + 'o' + p2;
+                } else {
+                    return p1 + 'u' + p2;
+                }
+            });
+
+            // Eliminar consonantes finales excepto 'n'
+            word = word.replace(/([bcdfgjklmnpqrstvwxyz])$/, function(match, p1) {
+                return p1 === 'n' ? p1 : '';
+            });
+
+            return word;
+        }
+
+        function applyAdditionalTransformations(word) {
+            word = word.replace(/a/g, '6');
+            word = word.replace(/ro/g, '<');
+            word = word.replace(/o/g, '>');
+            word = word.replace(/d/g, 'j');
+            word = word.replace(/do/g, 'j');
+            word = word.replace(/u/g, 'g');
+            word = word.replace(/n/g, 'a');
+            word = word.replace(/e/g, 'u');
+            return word;
+        }
+    </script>
+</body>
+</html>
